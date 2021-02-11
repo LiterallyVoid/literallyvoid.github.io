@@ -11,7 +11,7 @@ fi
 
 ./build.sh
 
-COMMIT="$(git rev-parse --short HEAD)"
+COMMIT="$(git rev-parse HEAD)"
 
 cd _out/
 
