@@ -9,11 +9,11 @@ if ! git diff HEAD --exit-code --quiet; then
     exit 1
 fi
 
-./build.sh
-
 COMMIT="$(git rev-parse HEAD)"
 
 find _out/ -not -path '*.git/*' -type f -exec rm \{\} \;
+
+./build.sh
 
 cd _out/
 
