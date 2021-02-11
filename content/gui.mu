@@ -1,3 +1,6 @@
+> breadcrumbs
+  [Home](/) »
+
 > title
   How the GUI system works
   > published

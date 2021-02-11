@@ -19,7 +19,7 @@ markup-index() {
 cc markup/main.c -o markup/main -g
 MARKUP=markup/main
 
-cp template/style.css template/icon{.png,.svg} "$OUT/"
+cp template/style.css template/icon{.png,.svg} template/left-arrow.svg "$OUT/"
 
 markup 404
 markup gui
