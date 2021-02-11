@@ -1,6 +1,8 @@
 > title
   About
 
-# 2021
+# Archive
+
+## 2021
 
 - [How the GUI system works](/gui)
