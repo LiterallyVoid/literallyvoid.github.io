@@ -72,13 +72,13 @@ code, .codeblock {
     margin: 0;
     text-align: right;
     color: #999;
-    padding: 0.2em 1em;
+    padding: 0.5em 1.5em;
     padding-right: 0.5em;
     background-color: #222;
 }
 
 .codeblock__content {
-    padding: 0.2em 1em;
+    padding: 0.5em 1.5em;
     padding-left: 0.15em;
     flex-grow: 1;
     margin: 0;
