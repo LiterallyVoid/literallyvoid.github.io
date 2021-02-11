@@ -1,7 +1,8 @@
-> breadcrumbs
-  [Home](/)
+> header
+  > breadcrumbs
+    [Home](/)
 
-> title
-  Page not found
+  > title
+    Page not found
 
 [Home](/)

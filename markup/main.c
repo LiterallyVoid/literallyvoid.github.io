@@ -411,13 +411,19 @@ void format_block(struct buffer *from, struct buffer *into) {
             }
         }
     }
-    char *code_marker = "> code\n";
-    if (!memcmp(from->chars, code_marker, strlen(code_marker))) {
+    char block_name[64];
+    {
+        size_t len = 0;
+        for (size_t i = 2; i < nl; i++) {
+            block_name[len++] = from->chars[i];
+        }
+        block_name[len] = '\0';
+    }
+    if (!strcmp(block_name, "code")) {
         format_code_block(from, into);
         return;
     }
-    char *title_marker = "> title\n";
-    if (!memcmp(from->chars, title_marker, strlen(title_marker))) {
+    if (!strcmp(block_name, "")) {
         struct inline_ctx ctx = {
             .index = 0,
             .prev_was_space = true,
@@ -438,6 +444,9 @@ void format_block(struct buffer *from, struct buffer *into) {
             // the actual <ul> or <ol> is handled by format_main
             buffer_add(into, "<li>\n", -1);
             end = "</li>\n";
+        } else if (!strcmp(block_name, "header")) {
+            buffer_add(into, "<header>\n", -1);
+            end = "</header>\n";
         } else {
             if (nl > 1) {
                 buffer_add(into, "<div class=\"block block--", -1);

@@ -1,10 +1,11 @@
-> breadcrumbs
-  [Home](/) »
+> header
+  > breadcrumbs
+    [Home](/) »
 
-> title
-  How the GUI system works
-  > published
-    2021\/02\/10
+  > title
+    How the GUI system works
+    > published
+      2021\/02\/10
 
 # Elements
 
