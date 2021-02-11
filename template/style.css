@@ -29,13 +29,14 @@ footer {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 0.3em;
 }
 
 .block--title > p {
     font-size: 150%;
     font-weight: bold;
+
     margin: 0;
-    margin-bottom: 0.3em;
 }
 
 img {
