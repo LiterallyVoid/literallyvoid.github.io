@@ -384,21 +384,38 @@ void format_code_block(struct buffer *from, struct buffer *into) {
     while (i < from->len && from->chars[i] != '\n') {
         i++;
     }
-    buffer_add(into, "<pre>", -1);
-    int line = 1;
 
+    struct buffer code = { NULL };
+
+    buffer_indent(into, 1);
+    buffer_add(into, "<div class=\"codeblock\">\n", -1);
+    buffer_indent(into, 0);
+    buffer_add(into, "<pre class=\"codeblock__linenumbers\">\n", -1);
+    int line = 1;
     for (; i < from->len; i++) {
         if (from->chars[i] == '\n') {
-            buffer_add(into, "\n", -1);
+            buffer_add(&code, "\n", -1);
+
+            char buf[16];
+            snprintf(buf, 16, "%d\n", line);
+            buffer_add(into, buf, -1);
+
             line++;
             if (from->chars[i + 1] != '\n') {
                 i += from->indent;
             }
             continue;
         }
-        escape_char(into, from->chars[i]);
+        escape_char(&code, from->chars[i]);
     }
+
     buffer_add(into, "</pre>\n", -1);
+    buffer_indent(into, 0);
+    buffer_add(into, "<pre class=\"codeblock__content\">", -1);
+    buffer_concat(into, &code);
+    buffer_add(into, "</pre>\n", -1);
+    buffer_indent(into, -1);
+    buffer_add(into, "</div>\n", -1);
 }
 
 void format_block(struct buffer *from, struct buffer *into) {
