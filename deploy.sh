@@ -13,6 +13,8 @@ fi
 
 COMMIT="$(git rev-parse HEAD)"
 
+find _out/ -not -path '*.git/*' -type f -exec rm \{\} \;
+
 cd _out/
 
 git add -A
