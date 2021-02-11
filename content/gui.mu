@@ -59,5 +59,3 @@ Pseudocode for the `flex` element:
       };
       current += boxes[i].size[primary_axis];
   }
-
-hello
