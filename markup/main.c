@@ -313,11 +313,17 @@ void format_paragraph(struct buffer *from, struct buffer *into) {
     };
 
     bool link_to_self = false;
-    if (from->chars[0] == '#' && from->chars[1] == ' ') {
+    if (!strncmp(from->chars, "# ", 2)) {
         ctx.index = 2;
         link_to_self = true;
         start = "<h2>";
         end = "</h2>";
+    }
+    if (!strncmp(from->chars, "## ", 3)) {
+        ctx.index = 2;
+        link_to_self = true;
+        start = "<h3>";
+        end = "</h3>";
     }
 
     buffer_indent(into, 0);
