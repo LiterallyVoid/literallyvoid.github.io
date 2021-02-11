@@ -1,3 +1,6 @@
+> breadcrumbs
+  [Home](/)
+
 > title
   Page not found
 
