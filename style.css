@@ -1,0 +1,73 @@
+body {
+    max-width: 40em;
+    margin: 0 auto;
+    padding: 0 0.5em;
+    font-size: 1.1rem;
+    font-family: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+    background-color: #FFF;
+}
+
+img {
+    max-width: 100%;
+}
+
+code, pre {
+    background-color: #111;
+    color: #FFF;
+    border-radius: 0.2em;
+    padding: 0.3em;
+}
+
+code, pre {
+    font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+    font-size: 70%;
+}
+
+p {
+    margin: 0.4em 0;
+    line-height: 1.4em;
+}
+
+h2 {
+    font-size: 120%;
+    margin-top: 1em;
+    margin-bottom: 0.6em;
+}
+
+a {
+    color: #000;
+    transiiton: opacity 0.08s linear;
+}
+
+a:hover {
+    color: #22D;
+}
+
+figcaption {
+    text-align: center;
+}
+
+.block--title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.block--title > p {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.block--title p {
+    margin: 0.2em 0;
+}
+
+sup, sub {
+    font-size: 70%;
+}
+
+footer {
+    text-align: center;
+    color: #555;
+}
