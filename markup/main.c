@@ -361,7 +361,7 @@ void format_paragraph(struct buffer *from, struct buffer *into) {
             buf[buf_len] = '\0';
         }
 
-        buffer_add(into, "<a id=\"", -1);
+        buffer_add(into, "<a class=\"heading__link\" id=\"", -1);
         buffer_add(into, buf, -1);
         buffer_add(into, "\" href=\"#", -1);
         buffer_add(into, buf, -1);
