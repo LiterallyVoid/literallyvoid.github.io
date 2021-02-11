@@ -11,26 +11,17 @@ header {
     margin: 1em 0;
 }
 
-.header__link {
-
-}
-
-.header__link:before {
-    content: '';
-    display: inline-block;
-    background-image: url(/left-arrow.svg);
-    background-size: 1em 1em;
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-}
-
 footer {
+    background-color: #EEE;
+    border-radius: 0.3em;
+
     text-align: center;
     color: #555;
-    border-top: 0.2em solid #DDD;
-    margin-top: 1.5em;
-    padding-top: 0.5em;
+
+    margin: 1.5em 0;
+    margin-bottom: 0;
+
+    padding: 0.5em 0;
 }
 
 .block--breadcrumbs > p {
@@ -71,15 +62,25 @@ pre {
     margin: 0.6em -0.6em;
 }
 
+h2 {
+    font-size: 120%;
+    margin-top: 1em;
+    margin-bottom: 0.6em;
+}
+
+h3 {
+    font-size: 100%;
+    margin-top: 0.6em;
+    margin-bottom: 0.3em;
+}
+
 p {
     margin: 0.4em 0;
     line-height: 1.4em;
 }
 
-h2 {
-    font-size: 120%;
-    margin-top: 1em;
-    margin-bottom: 0.6em;
+ol, ul {
+    margin: 0.2em 0;
 }
 
 a {
