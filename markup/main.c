@@ -440,7 +440,7 @@ void format_block(struct buffer *from, struct buffer *into) {
         format_code_block(from, into);
         return;
     }
-    if (!strcmp(block_name, "")) {
+    if (!strcmp(block_name, "title")) {
         struct inline_ctx ctx = {
             .index = 0,
             .prev_was_space = true,
