@@ -19,6 +19,8 @@ markup-index() {
 cc markup/main.c -o markup/main -g
 MARKUP=markup/main
 
+cp template/style.css $OUT/
+
 markup 404
 markup gui
 CANONICAL="/" markup index
