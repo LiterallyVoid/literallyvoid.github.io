@@ -397,7 +397,7 @@ void format_code_block(struct buffer *from, struct buffer *into) {
             buffer_add(&code, "\n", -1);
 
             char buf[16];
-            snprintf(buf, 16, "%d\n", line);
+            snprintf(buf, 16, "%d<br>", line);
             buffer_add(into, buf, -1);
 
             line++;
