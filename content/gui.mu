@@ -47,6 +47,7 @@ Pseudocode for the `flex` element:
       if child.flex_grow == -1 {
           continue;
       }
+
       vec2 child_size_hint = {
           [primary_axis] = extra_space * (child.flex_grow / total_flex_grow),
           [secondary_axis] = size_hint[secondary_axis],
