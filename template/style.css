@@ -1,7 +1,7 @@
 body {
-    max-width: 40em;
+    max-width: 40rem;
     margin: 0 auto;
-    padding: 0 0.5em;
+    padding: 0 0.5rem;
     font-size: 1.1rem;
     font-family: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
     background-color: #FFF;
@@ -10,14 +10,14 @@ body {
 }
 
 header {
-    margin: 2em 0;
+    margin: 2rem 0;
 }
 
 footer {
     text-align: center;
     color: #555;
 
-    padding: 1.5em 0;
+    padding: 1.5rem 0;
 }
 
 .block--breadcrumbs > p {
@@ -29,7 +29,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 0.3em;
+    margin-bottom: 0.3rem;
 }
 
 .block--title > p {
@@ -37,7 +37,7 @@ footer {
     font-weight: bold;
 
     margin: 0;
-    margin-right: 0.3em;
+    margin-right: 0.3rem;
 }
 
 .block--published > p {
@@ -49,7 +49,7 @@ img {
 }
 
 code {
-    padding: 0.2em;
+    padding: 0.2rem;
 }
 
 code, .codeblock {
@@ -58,25 +58,24 @@ code, .codeblock {
 
     background-color: #111;
     color: #FFF;
-    border-radius: 0.3em;
+    border-radius: 0.3rem;
 }
 
 .codeblock {
-    overflow-x: auto;
     margin: 0.5rem -0.5rem;
     padding: 0.5rem;
 }
 
 h2 {
     font-size: 120%;
-    margin-top: 1em;
-    margin-bottom: 0.6em;
+    margin-top: 1rem;
+    margin-bottom: 0.6rem;
 }
 
 h3 {
     font-size: 100%;
-    margin-top: 0.6em;
-    margin-bottom: 0.3em;
+    margin-top: 0.6rem;
+    margin-bottom: 0.3rem;
 }
 
 .heading__link {
@@ -84,13 +83,13 @@ h3 {
 }
 
 p {
-    margin: 0.5em 0;
-    line-height: 1.5em;
+    margin: 0.5rem 0;
+    line-height: 1.5rem;
     font-size: 1.1rem;
 }
 
 ol, ul {
-    margin: 0.2em 0;
+    margin: 0.2rem 0;
 }
 
 a {
