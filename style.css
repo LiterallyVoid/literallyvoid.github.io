@@ -52,41 +52,19 @@ code {
     padding: 0.2em;
 }
 
-code,
-.codeblock__linenumbers,
-.codeblock__content
-{
+code, .codeblock {
     font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
     font-size: 0.8rem;
-}
 
-code, .codeblock {
     background-color: #111;
     color: #FFF;
     border-radius: 0.3em;
 }
 
 .codeblock {
-    margin: 0.6rem 0;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
     overflow-x: auto;
-}
-
-.codeblock__linenumbers {
-    margin: 0;
-    text-align: right;
-    color: #999;
+    margin: 0.5rem -0.5rem;
     padding: 0.5rem;
-    background-color: #222;
-}
-
-.codeblock__content {
-    padding: 0.5rem;
-    padding-left: 0.15rem;
-    flex-grow: 1;
-    margin: 0;
 }
 
 h2 {
