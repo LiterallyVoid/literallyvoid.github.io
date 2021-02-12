@@ -36,7 +36,8 @@ footer {
     font-size: 150%;
     font-weight: bold;
 
-    margin-right: 0.5em;
+    margin: 0;
+    margin-right: 0.3em;
 }
 
 .block--published > p {
@@ -47,9 +48,11 @@ img {
     max-width: 100%;
 }
 
-code, .codeblock {
+code {
     padding: 0.2em;
+}
 
+code, .codeblock {
     background-color: #111;
     color: #FFF;
     border-radius: 0.3em;
@@ -59,27 +62,26 @@ code, .codeblock {
 }
 
 .codeblock {
-    padding: 0em;
-    margin: 0.6em -1.0em;
-    padding: 0 1em;
+    margin: 0.6rem -1rem;
+    padding: 0;
     display: flex;
     flex-direction: row;
     overflow-x: auto;
 }
 
 .codeblock__linenumbers {
-    border-radius: 0.3em 0 0 0.3em;
     margin: 0;
     text-align: right;
     color: #999;
-    padding: 0.5em 0.5em;
-    padding-right: 0.5em;
+    padding: 0.5rem 0.5rem;
+    padding-left: 1rem;
     background-color: #222;
 }
 
 .codeblock__content {
-    padding: 0.5em 0.5em;
-    padding-left: 0.15em;
+    padding: 0.5rem 0.5rem;
+    padding-left: 0.15rem;
+    padding-right: 1rem;
     flex-grow: 1;
     margin: 0;
 }
