@@ -1,6 +1,6 @@
 > header
   > title
-    About
+    About Me
 
 # Archive
 

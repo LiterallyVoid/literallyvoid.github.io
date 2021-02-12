@@ -18,6 +18,7 @@ MARKUP=markup/main
 
 cp template/style.css template/icon{.png,.svg} "$OUT/"
 
+# Special pages
 CANONICAL="/" markup index
 markup 404
 

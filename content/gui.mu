@@ -5,7 +5,7 @@
   > title
     How the GUI system works
     > published
-      2021\/02\/10
+      2021-02-11
 
 # Elements
 
