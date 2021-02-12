@@ -36,6 +36,10 @@ footer {
     font-size: 150%;
     font-weight: bold;
 
+    margin-right: 0.5em;
+}
+
+.block--published > p {
     margin: 0;
 }
 
