@@ -390,7 +390,7 @@ void format_code_block(struct buffer *from, struct buffer *into) {
     buffer_indent(into, 1);
     buffer_add(into, "<div class=\"codeblock\">\n", -1);
     buffer_indent(into, 0);
-    buffer_add(into, "<pre class=\"codeblock__linenumbers\">\n", -1);
+    buffer_add(into, "<pre class=\"codeblock__linenumbers\" aria-hidden=\"true\">\n", -1);
     int line = 1;
     for (; i < from->len; i++) {
         if (from->chars[i] == '\n') {
