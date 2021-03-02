@@ -17,7 +17,7 @@ Functions are defined with the following syntax:
       ...body
   }
 
-I'd like to use universal constant defining, but this either:
+Making functions and constants use the same syntax is attractive, but that either:
 - requires semicolons after function definitions, or
 - requires the parser to allow missing semicolons.
 
