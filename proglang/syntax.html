@@ -49,10 +49,16 @@
 <h3><a class="heading__link" id="built-in-types" href="#built-in-types">Built-in types</a></h3>
 <ul>
   <li>
-    <p><code>u8</code>, <code>u16</code>, <code>u32</code>, <code>u64</code>, <code>usize</code>: unsigned integers.</p>
+    <p><code>u8</code>, <code>u16</code>, <code>u32</code>, <code>u64</code>, <code>usize</code>: Unsigned integers.</p>
   </li>
   <li>
-    <p><code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code>, <code>isize</code>: signed integers.</p>
+    <p><code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code>, <code>isize</code>: Signed integers.</p>
+  </li>
+  <li>
+    <p><code>f32</code>, <code>f64</code>: Floating-point numbers.</p>
+  </li>
+  <li>
+    <p><code>opaque</code>: Unsized type.</p>
   </li>
 </ul>
 <h3><a class="heading__link" id="opaque" href="#opaque">Opaque</a></h3>
@@ -86,7 +92,9 @@
 <span class="hl__keyword">var</span> magic: FourCC = (<span class="hl__number">0x7F</span>, <span class="hl__number">0x45</span>, <span class="hl__number">0x4c</span>, <span class="hl__number">0x46</span>);
 
 address = magic; <span class="hl__comment">// whoops!
-</span></pre><h3><a class="heading__link" id="pointers-and-slices" href="#pointers-and-slices">Pointers and slices</a></h3>
+</span></pre><h3><a class="heading__link" id="unit" href="#unit">Unit</a></h3>
+<p>The unit type (spelled <code>()</code>, and pronounced <code>()</code>) has one possible value: <code>()</code>. It takes the place of Rust’s <code>()</code> type, or C’s <code>void</code> type.</p>
+<h3><a class="heading__link" id="pointers-and-slices" href="#pointers-and-slices">Pointers and slices</a></h3>
 <p>Slices cannot be used directly, they can only be used in pointer form.</p>
 <p>Slices can be created from either arrays or pointer-to-unknown.</p>
 <pre class="codeblock">
