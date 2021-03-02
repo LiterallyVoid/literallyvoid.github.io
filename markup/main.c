@@ -379,13 +379,378 @@ void format_paragraph(struct buffer *from, struct buffer *into) {
 
 void format_main(struct buffer *from, struct buffer *into);
 
-void format_code_block(struct buffer *from, struct buffer *into) {
+struct highlight_word {
+    char *fwdre;
+    char *style;
+    char *next_mode; // NULL to stay in current mode, "!pop" to go to previous mode in the stack, or any other string to push that mode onto the stack.
+};
+
+struct highlight_mode {
+    char *name;
+    struct highlight_word *words;
+};
+
+struct highlight_language {
+    struct highlight_mode *modes;
+};
+
+struct highlight_state {
+    char *stack[32];
+    int stack_len;
+};
+
+struct highlight_language lang_c = {
+    .modes = (struct highlight_mode[]) {
+        {
+            .name = "default",
+            .words = (struct highlight_word[]) {
+                { "if", "keyword", NULL },
+                { "else", "keyword", NULL },
+                { "while", "keyword", NULL },
+                { "for", "keyword", NULL },
+                { "do", "keyword", NULL},
+                { "in", "keyword", NULL},
+                { "extern", "keyword", NULL},
+                { "inline", "keyword", NULL},
+                { "static", "keyword", NULL},
+                { "struct", "keyword", NULL},
+                { "union", "keyword", NULL},
+
+                { "void", "type", NULL },
+                { "short", "type", NULL },
+                { "int", "type", NULL },
+                { "long", "type", NULL },
+                { "unsigned", "type", NULL },
+                { "signed", "type", NULL },
+                { "float", "type", NULL },
+                { "double", "type", NULL },
+                { "?uint+[0-9]_t", "type", NULL },
+                { "?[ui]vec+[0-9][^a-zA-Z0-9_]", "type", NULL },
+
+                { "\"", "string", "string" },
+                { "//", "comment", "comment" },
+                { "/*", "comment", "comment_multiline" },
+
+                { "[a-zA-Z_]*[a-zA-Z0-9_]", NULL, NULL },
+                { "[0-9][0-9a-fA-FxXeEoObB_]", "number", NULL },
+                { "#[a-zA-Z_]*[a-zA-Z0-9_]", "keyword", NULL },
+                { 0 },
+            },
+        },
+        {
+            .name = "string",
+            .words = (struct highlight_word[]) {
+                "\\.", "string_escape",
+                "\"", "pop",
+                NULL, NULL,
+            },
+        },
+        {
+            .name = "comment",
+            .words = (struct highlight_word[]) {
+                { "+[^\n]", "comment", NULL },
+                { "\n", "comment", "!pop" },
+                { 0 },
+            },
+        },
+        {
+            .name = "comment_multiline",
+            .words = (struct highlight_word[]) {
+                { ".", "comment", NULL },
+                { "*/", "comment", "!pop" },
+                { 0 },
+            },
+        },
+        {
+            .name = NULL
+        },
+    },
+};
+
+struct highlight_language lang_acre = {
+    .modes = (struct highlight_mode[]) {
+        {
+            .name = "default",
+            .words = (struct highlight_word[]) {
+                { "if", "keyword", NULL },
+                { "else", "keyword", NULL },
+                { "while", "keyword", NULL },
+                { "for", "keyword", NULL },
+                { "each", "keyword", NULL },
+                { "func", "keyword", NULL},
+                { "var", "keyword", NULL },
+                { "def", "keyword", NULL },
+                { "extern", "keyword", NULL},
+                { "struct", "keyword", NULL},
+                { "union", "keyword", NULL},
+
+                { "void", "type", NULL },
+                { "opaque", "type", NULL },
+                { "u8", "type", NULL },
+                { "u16", "type", NULL },
+                { "u32", "type", NULL },
+                { "u64", "type", NULL },
+                { "usize", "type", NULL },
+                { "i8", "type", NULL },
+                { "i16", "type", NULL },
+                { "i32", "type", NULL },
+                { "i64", "type", NULL },
+                { "isize", "type", NULL },
+                { "f32", "type", NULL },
+                { "f64", "type", NULL },
+
+                { "\"", "string", "string" },
+                { "//", "comment", "comment" },
+                { "/*", "comment", "comment_multiline" },
+
+                { "[a-zA-Z_]*[a-zA-Z0-9_]", NULL, NULL },
+                { "[0-9][0-9a-fA-FxXeEoObB_]", "number", NULL },
+                { "#[a-zA-Z_]*[a-zA-Z0-9_]", "keyword", NULL },
+                { 0 },
+            },
+        },
+        {
+            .name = "string",
+            .words = (struct highlight_word[]) {
+                "\\.", "string_escape",
+                "\"", "pop",
+                NULL, NULL,
+            },
+        },
+        {
+            .name = "comment",
+            .words = (struct highlight_word[]) {
+                { "+[^\n]", "comment", NULL },
+                { "\n", "comment", "!pop" },
+                { 0 },
+            },
+        },
+        {
+            .name = "comment_multiline",
+            .words = (struct highlight_word[]) {
+                { ".", "comment", NULL },
+                { "/*", "comment", "comment_multiline" },
+                { "*/", "comment", "!pop" },
+                { 0 },
+            },
+        },
+        {
+            .name = NULL
+        },
+    },
+};
+
+size_t fwdre_match(char *re, ssize_t re_size, char *str, size_t length) {
+    if (re_size == -1) {
+        re_size = strlen(re);
+    }
+    char *last_groupish = NULL;
+    ssize_t last_groupish_len = 0;
+    for (size_t i = 0, j = 0; i < length; i++) {
+        if (j == re_size || re[j] == ')') {
+            return i;
+        }
+        char repeat = '\0';
+        if (re[j] == '*' || re[j] == '+' || re[j] == '?') {
+            repeat = re[j];
+            j++;
+        }
+        if (re[j] == '(') {
+            int times = 0;
+            while (true) {
+                size_t match_amount = fwdre_match(&re[j + 1], -1, &str[i], length - i);
+                if (match_amount == 0) {
+                    break;
+                }
+                i += match_amount;
+                times++;
+                if (repeat == '\0' || repeat == '?') {
+                    break;
+                }
+            }
+            if (times == 0 && repeat != '*' && repeat != '?') {
+                return 0; // no match
+            }
+        } else if (re[j] == '.') {
+            continue;
+        } else if (re[j] == '[') {
+            j++;
+
+            bool invert = false;
+            if (re[j] == '^') {
+                invert = true;
+                j++;
+            }
+
+            size_t start = j;
+            if (re[j] == ']') {
+                j++;
+            }
+            if (re[j] == '[') {
+                j++;
+            }
+
+            while (j < re_size && re[j] != ']') {
+                j++;
+            }
+            size_t end = j;
+            j++;
+
+            int times = 0;
+            while (true) {
+                bool match = false;
+                for (size_t k = start; k < end; k++) {
+                    if ((k + 2) < end && re[k + 1] == '-') {
+                        if (str[i] >= re[k] && str[i] <= re[k + 2]) {
+                            match = true;
+                            break;
+                        }
+                    } else {
+                        if (str[i] == re[k]) {
+                            match = true;
+                            break;
+                        }
+                    }
+                }
+                if (match == invert) {
+                    break;
+                }
+
+                times++;
+                i++;
+                if (i >= length) {
+                    break;
+                }
+                if (repeat == '\0' || repeat == '?') {
+                    break;
+                }
+            }
+            i--;
+
+            if (times == 0 && repeat != '*' && repeat != '?') {
+                return 0; // no match
+            }
+        } else {
+            int times = 0;
+            while (i < length && str[i] == re[j]) {
+                i++;
+                times++;
+                if (repeat == '\0' || repeat == '?') {
+                    break;
+                }
+            }
+            j++;
+            i--;
+            if (times == 0 && repeat != '*' && repeat != '?') {
+                return 0; // no match
+            }
+        }
+    }
+}
+
+void highlight_code(struct buffer *from, struct buffer *into, struct highlight_language *language) {
+    struct highlight_state state = { 0 };
+    buffer_indent(into, 0);
+    buffer_add(into, "<pre class=\"codeblock\">", -1);
+    char *current_style = NULL;
+    for (size_t i = 0; i < from->len; i++) {
+        size_t line_start = i;
+        while (i < from->len && from->chars[i] != '\n') {
+            i++;
+        }
+        size_t line_end = i + 1;
+        size_t start = line_start;
+        struct highlight_mode *current_mode = &language->modes[0];
+        while (start < line_end) {
+            size_t max_len = 0;
+            struct highlight_word *word = NULL;
+            printf("------");
+            for (size_t i = 0; current_mode->words[i].fwdre != NULL; i++) {
+                size_t len = fwdre_match(current_mode->words[i].fwdre, -1, &from->chars[start], line_end - start);
+                if (len > 0 && len > max_len) {
+                    max_len = len;
+                    word = &current_mode->words[i];
+                }
+            }
+            char *new_style = NULL;
+            if (word != NULL) {
+                new_style = word->style;
+            }
+
+            if (new_style != current_style) {
+                if (current_style != NULL) {
+                    buffer_add(into, "</span>", -1);
+                }
+                if (new_style != NULL) {
+                    buffer_add(into, "<span class=\"hl__", -1);
+                    buffer_add(into, new_style, -1);
+                    buffer_add(into, "\">", -1);
+                }
+                current_style = new_style;
+            }
+            if (max_len == 0) {
+                escape_char(into, from->chars[start]);
+                start += 1;
+                continue;
+            }
+
+            for (size_t i = 0; i < max_len; i++) {
+                escape_char(into, from->chars[start + i]);
+            }
+            start += max_len;
+            char *mode = word->next_mode;
+            if (mode != NULL) {
+                if (!strcmp(mode, "!pop")) {
+                    mode = state.stack[--state.stack_len];
+                } else {
+                    state.stack[state.stack_len++] = mode;
+                }
+                current_mode = NULL;
+                for (size_t i = 0; language->modes[i].name != NULL; i++) {
+                    if (!strcmp(language->modes[i].name, mode)) {
+                        current_mode = &language->modes[i];
+                        break;
+                    }
+                }
+                if (current_mode == NULL) {
+                    printf("couldn't find mode %s\n", mode);
+                    current_mode = &language->modes[0];
+                    state.stack_len = 0;
+                }
+            }
+        }
+        if (current_style != NULL) {
+            buffer_add(into, "</span>", -1);
+        }
+        current_style = NULL;
+        if ((i + 1) < from->len && from->chars[i + 1] != '\n') {
+            i += from->indent;
+        }
+    }
+    buffer_add(into, "</pre>", -1);
+}
+
+void format_code_block(struct buffer *from, struct buffer *into, char *language) {
     ssize_t i = 0;
+
+    // skip the `code:<language>` bit
     while (i < from->len && from->chars[i] != '\n') {
         i++;
     }
 
-    struct buffer code = { NULL };
+    if (language != NULL) {
+        struct highlight_language *lang = NULL;
+        if (!strcmp(language, "acre")) lang = &lang_acre;
+        if (!strcmp(language, "c")) lang = &lang_c;
+
+        if (lang != NULL) {
+            struct buffer from_stripped;
+            buffer_slice(from, i, -1, &from_stripped);
+
+            highlight_code(&from_stripped, into, lang);
+            return;
+        }
+    }
 
     buffer_indent(into, 0);
     buffer_add(into, "<pre class=\"codeblock\">", -1);
@@ -423,7 +788,11 @@ void format_block(struct buffer *from, struct buffer *into) {
         block_name[len] = '\0';
     }
     if (!strcmp(block_name, "code")) {
-        format_code_block(from, into);
+        format_code_block(from, into, NULL);
+        return;
+    }
+    if (!memcmp(block_name, "code:", 5)) {
+        format_code_block(from, into, &block_name[5]);
         return;
     }
     if (!strcmp(block_name, "title")) {
