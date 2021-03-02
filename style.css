@@ -114,3 +114,16 @@ figcaption {
 sup, sub {
     font-size: 70%;
 }
+
+.hl__keyword {
+    font-weight: bold;
+    color: #8EF;
+}
+
+.hl__comment {
+    color: #f66;
+}
+
+.hl__type {
+    color: #af4;
+}
