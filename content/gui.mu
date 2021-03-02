@@ -21,7 +21,7 @@ After all children have been laid out (and sized), the parent element should mov
 
 Pseudocode for the `flex` element:
 
-> code
+> code:c
   float total_along = 0;
   float total_flex_grow = 0;
 

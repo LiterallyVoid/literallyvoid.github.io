@@ -24,3 +24,6 @@ markup 404
 
 # Archive
 markup gui
+
+markup proglang/index
+markup proglang/syntax
