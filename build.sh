@@ -7,10 +7,11 @@ export TEMPLATE=template/template.html
 OUT=_out
 
 markup() {
-    OUTPATH="${1:-$OUTPATH}"
+    FILE="$1"
+    local OUTPATH="${OUTPATH:-$FILE}"
     mkdir -p $(dirname "$OUT/$OUTPATH.html")
-    echo "content/$1.mu" "->" "$OUT/$OUTPATH.html"
-    ROOT="" CANONICAL="${CANONICAL:-/$1}" $MARKUP "content/$1.mu" >"$OUT/$OUTPATH.html"
+    echo "content/$FILE.mu" "->" "$OUT/$OUTPATH.html"
+    ROOT="" CANONICAL="${CANONICAL:-/$FILE}" $MARKUP "content/$FILE.mu" >"$OUT/$OUTPATH.html"
 }
 
 cc markup/main.c -o markup/main -g
@@ -25,5 +26,5 @@ markup 404
 # Archive
 markup gui
 
-markup proglang/index
-markup proglang/syntax
+OUTPATH="acre" markup proglang/index
+OUTPATH="acre/syntax" markup proglang/syntax

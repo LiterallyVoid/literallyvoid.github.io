@@ -1,6 +1,6 @@
 > header
   > breadcrumbs
-    [Home](/) » [Acre](/proglang)
+    [Home](/) » [Acre](/acre)
 
   > title
     Acre's Syntax
