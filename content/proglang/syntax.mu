@@ -36,8 +36,10 @@ Where `def` is for constants, and `var` is for variables.
 
 ## Built-in types
 
-- `u8`, `u16`, `u32`, `u64`, `usize`: unsigned integers.
-- `i8`, `i16`, `i32`, `i64`, `isize`: signed integers.
+- `u8`, `u16`, `u32`, `u64`, `usize`: Unsigned integers.
+- `i8`, `i16`, `i32`, `i64`, `isize`: Signed integers.
+- `f32`, `f64`: Floating-point numbers.
+- `opaque`: Unsized type.
 
 ## Opaque
 
@@ -85,6 +87,10 @@ Pairs with the same structure are implicitly casted between, so:
   var magic: FourCC = (0x7F, 0x45, 0x4c, 0x46);
 
   address = magic; // whoops!
+
+## Unit
+
+The unit type (spelled `()`, and pronounced `()`) has one possible value: `()`. It takes the place of Rust's `()` type, or C's `void` type.
 
 ## Pointers and slices
 
