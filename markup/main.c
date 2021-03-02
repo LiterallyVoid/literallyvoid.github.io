@@ -664,7 +664,6 @@ void highlight_code(struct buffer *from, struct buffer *into, struct highlight_l
         while (start < line_end) {
             size_t max_len = 0;
             struct highlight_word *word = NULL;
-            printf("------");
             for (size_t i = 0; current_mode->words[i].fwdre != NULL; i++) {
                 size_t len = fwdre_match(current_mode->words[i].fwdre, -1, &from->chars[start], line_end - start);
                 if (len > 0 && len > max_len) {
