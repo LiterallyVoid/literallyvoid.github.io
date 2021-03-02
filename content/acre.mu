@@ -1,9 +1,11 @@
 > header
   > breadcrumbs
-    [Home](/) » [Acre](/acre)
+    [Home](/) »
 
   > title
-    Acre's Syntax
+    Acre
+
+Acre is a language that doesn't exist yet.
 
 # Functions
 
@@ -60,24 +62,23 @@ The `#unique` qualifier can be used to make a type with the same operations and 
   def utf8_byte = #unique u8;
   def utf8_codepoint = #unique u32;
 
-## Pairs
+## Tuples
 
-Pairs can exist of types and values.
+Tuples can be types or values.
 
-The only way to create pairs is through the comma operator, which is right-associative; so the following are all equivalent:
+They're created by putting several values in parentheses, with commas separating them.
+
+When creating a tuple of only one element, a comma is required.
 
 > code:acre
-  def MyPair = i32, i32, i64, i64;
-  def MyPair = (i32, i32, i64, i64);
-  def MyPair = (i32, (i32, (i64, (i64))));
+  def Vec0 = ();
+  def Vec1 = (f32,);
+  def Vec2 = (f32, f32);
+  def Vec3 = (f32, f32, f32);
 
-However, this:
-> code:acre
-  def MyPair = (i32, (i32, i64), i64);
+  var my_vec3: Vec3 = (1.0, 0.0, 1.0);
 
-is /not/ equivalent.
-
-Pairs with the same structure are implicitly casted between, so:
+Tuples with the same structure are implicitly casted between, so:
 
 > code:acre
   def Ipv4Address = (u8, u8, u8, u8);
@@ -92,11 +93,16 @@ Pairs with the same structure are implicitly casted between, so:
 
 The unit type (spelled `()`, and pronounced `()`) has one possible value: `()`. It takes the place of Rust's `()` type, or C's `void` type.
 
+## References
+
+References behave nearly identically to pointers.
+The only difference is that pointers can be implicitly casted to references, but not the other way around.
+
 ## Pointers and slices
 
-Slices cannot be used directly, they can only be used in pointer form.
+Slices cannot be used directly; they can only be used in pointer form.
 
-Slices can be created from either arrays or pointer-to-unknown.
+Slices can be created from either arrays or pointers-to-unknown.
 
 > code:acre
   var bytes: [4]u8 = { 0xDE, 0xAD, 0xBE, 0xEF };
@@ -120,3 +126,14 @@ Slices can be created from either arrays or pointer-to-unknown.
   // ..and so are casts from &[..]u8 to &[?]u8
   var ptr_unknown_length: &[?]u8 = reference;
   assert(ptr_unknown_length[3] == 0xEF);
+
+  var beef: &[..]u8 = &ptr_unknown_length[2..4];
+  assert(beef[0] == 0xBE);
+  assert(beef[1] == 0xEF);
+
+  // casting from a slice to an array is allowed, but safety-checked.
+  // this is fine:
+  var two: &[2]u8 = beef;
+
+  // but this is a panic:
+  var three: &[3]u8 = beef;

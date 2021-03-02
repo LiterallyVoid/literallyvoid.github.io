@@ -431,7 +431,8 @@ struct highlight_language lang_c = {
                 { "//", "comment", "comment" },
                 { "/*", "comment", "comment_multiline" },
 
-                { "[a-zA-Z_]*[a-zA-Z0-9_]", NULL, NULL },
+                { "[a-z_]*[a-zA-Z0-9_]", NULL, NULL },
+                { "[A-Z]*[a-zA-Z0-9_]", "type", NULL },
                 { "[0-9][0-9a-fA-FxXeEoObB_]", "number", NULL },
                 { "#[a-zA-Z_]*[a-zA-Z0-9_]", "keyword", NULL },
                 { 0 },

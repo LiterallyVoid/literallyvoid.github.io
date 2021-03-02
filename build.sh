@@ -26,5 +26,4 @@ markup 404
 # Archive
 markup gui
 
-OUTPATH="acre" markup proglang/index
-OUTPATH="acre/syntax" markup proglang/syntax
+markup acre
