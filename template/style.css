@@ -111,7 +111,7 @@ code, .codeblock {
     font-size: 0.8rem;
 
     background-color: #FAFAFA;
-    color: #222;
+    color: #111;
     border-radius: 0.3rem;
     border: 0.15em solid #DDD;
 }
@@ -124,8 +124,7 @@ code, .codeblock {
 }
 
 .hl__keyword {
-    font-weight: bold;
-    color: #48D;
+    color: #22A;
 }
 
 .hl__comment {
