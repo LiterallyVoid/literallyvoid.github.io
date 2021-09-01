@@ -51,6 +51,11 @@ blockquote {
     margin: 0;
 }
 
+.block--break {
+    margin: 0 0.5em;
+    border-bottom: 0.05em solid #888;
+}
+
 img {
     width: 100%;
 }
