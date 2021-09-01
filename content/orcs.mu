@@ -17,7 +17,7 @@
 
 "It's orcs."
 
-"OH MY G--"
+"OH MY G–"
 
 > break
 
