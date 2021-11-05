@@ -320,10 +320,16 @@ void format_paragraph(struct buffer *from, struct buffer *into) {
         end = "</h2>";
     }
     if (!strncmp(from->chars, "## ", 3)) {
-        ctx.index = 2;
+        ctx.index = 3;
         link_to_self = true;
         start = "<h3>";
         end = "</h3>";
+    }
+    if (!strncmp(from->chars, "### ", 4)) {
+        ctx.index = 4;
+        link_to_self = true;
+        start = "<h4>";
+        end = "</h4>";
     }
 
     buffer_indent(into, 0);
