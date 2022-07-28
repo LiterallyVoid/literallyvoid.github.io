@@ -287,9 +287,12 @@ void format_paragraph(struct buffer *from, struct buffer *into) {
             buffer_add(into, "<figure>\n", -1);
 
             buffer_indent(into, 0);
+            buffer_add(into, "<a href=\"", -1);
+            buffer_concat(into, &url);
+            buffer_add(into, "\">", -1);
             buffer_add(into, "<img src=\"", -1);
             buffer_concat(into, &url);
-            buffer_add(into, "\"/>", -1);
+            buffer_add(into, "\"/></a>", -1);
 
             buffer_indent(into, 0);
             buffer_add(into, "<figcaption>", -1);

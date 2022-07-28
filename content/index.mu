@@ -4,6 +4,10 @@
 
 # Archive
 
+## 2022
+
+- [Core Git Commands](/git) (2022-07-28)
+
 ## 2021
 
 - [Can't Forget](/memory) (2021-11-05)

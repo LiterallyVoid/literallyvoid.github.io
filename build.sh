@@ -29,3 +29,6 @@ markup gui
 markup acre
 markup orcs
 markup memory
+
+markup git
+cp content/git/ $OUT/ -r
