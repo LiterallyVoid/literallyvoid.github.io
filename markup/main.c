@@ -425,6 +425,14 @@ struct highlight_language lang_c = {
                 { "struct", "keyword", NULL},
                 { "union", "keyword", NULL},
 
+                // :)
+                { "const", "keyword", NULL},
+                { "let", "keyword", NULL},
+                { "var", "keyword", NULL},
+
+                { "true", "keyword", NULL},
+                { "false", "keyword", NULL},
+
                 { "void", "type", NULL },
                 { "short", "type", NULL },
                 { "int", "type", NULL },
@@ -436,7 +444,7 @@ struct highlight_language lang_c = {
                 { "?uint+[0-9]_t", "type", NULL },
                 { "?[ui]vec+[0-9][^a-zA-Z0-9_]", "type", NULL },
 
-                { "\"", "string", "string" },
+                { "\"+[^\"]\"", "string", NULL },
                 { "//", "comment", "comment" },
                 { "/*", "comment", "comment_multiline" },
 
@@ -450,8 +458,9 @@ struct highlight_language lang_c = {
         {
             .name = "string",
             .words = (struct highlight_word[]) {
-                "\\.", "string_escape",
-                "\"", "pop",
+                { "\\.", "string", NULL },
+                { "\"", "string", "!pop" },
+                { ".", "string", NULL },
                 NULL, NULL,
             },
         },

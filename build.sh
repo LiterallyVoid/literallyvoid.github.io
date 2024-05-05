@@ -29,6 +29,8 @@ markup gui
 markup acre
 markup orcs
 markup memory
+markup ld55
+cp -r content/ld55/ $OUT/ 
 
 markup git
-cp content/git/ $OUT/ -r
+cp -r content/git/ $OUT/
