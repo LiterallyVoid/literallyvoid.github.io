@@ -137,10 +137,15 @@ code, .codeblock {
 
 .hl__keyword {
     color: #22A;
+    font-weight: bold;
 }
 
 .hl__comment {
     color: #822;
+}
+
+.hl__string {
+    color: #28A;
 }
 
 .hl__type {
