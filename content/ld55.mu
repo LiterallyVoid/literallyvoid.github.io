@@ -6,7 +6,7 @@
     > published
       2024-05-04
 
-I made a game (shocker!). It placed 169\<sup\>th\</sup\> overall from a field of 462 other games submitted to The Compo, a forty-eight hour mad dash to make a game solo. You can play it from [the game's itch.io page](https://literallyvoid.itch.io/ludum-dare-55), and view [the source code on GitHub](https://github.com/LiterallyVoid/ludum-dare-55/).
+I made a game (shocker!). It placed 169\<sup\>th\</sup\> overall from a field of 462 other games submitted to The Compo, a forty-eight hour mad dash to make a game solo. You can play it from [the game's itch.io page](https://literallyvoid.itch.io/ludum-dare-55), tell me where I went wrong on [the game's Ludum Dare page](https://ldjam.com/events/ludum-dare/55/triage-and-motion), or view [the source code on GitHub](https://github.com/LiterallyVoid/ludum-dare-55/).
 
 Because I \<del\>love to subvert expectations\</del\>ran out of ideas, I ended up making a game that had, at best, passing reference to the theme. I turned off theme voting, but in hindsight I should've kept that on—see if I'd get a new world record for lastplace%.
 
