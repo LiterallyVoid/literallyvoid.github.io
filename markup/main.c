@@ -665,6 +665,8 @@ size_t fwdre_match(char *re, ssize_t re_size, char *str, size_t length) {
             }
         }
     }
+
+    return 0;
 }
 
 void highlight_code(struct buffer *from, struct buffer *into, struct highlight_language *language) {
