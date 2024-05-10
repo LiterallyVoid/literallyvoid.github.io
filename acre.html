@@ -92,8 +92,8 @@
 <span class="hl__keyword">var</span> address: Ipv4Address = (<span class="hl__number">12</span>7, 0, 0, 1);
 <span class="hl__keyword">var</span> magic: FourCC = (<span class="hl__number">0x7F</span>, <span class="hl__number">0x45</span>, <span class="hl__number">0x4c</span>, <span class="hl__number">0x46</span>);
 
-address = magic; <span class="hl__comment">// whoops!
-</span></pre><h3><a class="heading__link" id="unit" href="#unit">Unit</a></h3>
+address = magic; <span class="hl__comment">// whoops!</span>
+</pre><h3><a class="heading__link" id="unit" href="#unit">Unit</a></h3>
 <p>The unit type (spelled <code>()</code>, and pronounced <code>()</code>) has one possible value: <code>()</code>. It takes the place of Rust’s <code>()</code> type, or C’s <code>void</code> type.</p>
 <h3><a class="heading__link" id="references" href="#references">References</a></h3>
 <p>References behave nearly identically to pointers. The only difference is that pointers can be implicitly casted to references, but not the other way around.</p>
@@ -104,35 +104,35 @@ address = magic; <span class="hl__comment">// whoops!
 <span class="hl__keyword">var</span> bytes: [4]<span class="hl__type">u8</span> = { <span class="hl__number">0x</span>DE, <span class="hl__number">0x</span>AD, <span class="hl__number">0x</span>BE, <span class="hl__number">0x</span>EF };
 
 <span class="hl__keyword">var</span> dead = bytes[0..2];
-<span class="hl__comment">// the type of `dead` is [2]u8
-</span>
+<span class="hl__comment">// the type of `dead` is [2]u8</span>
+
 dead[0] = <span class="hl__number">0x</span>BA;
 
-<span class="hl__comment">// without a reference, the slice operator copies the created slice.
-</span>assert(bytes[0] == <span class="hl__number">0x</span>DE);
+<span class="hl__comment">// without a reference, the slice operator copies the created slice.</span>
+assert(bytes[0] == <span class="hl__number">0x</span>DE);
 
 <span class="hl__keyword">var</span> reference = &amp;bytes[0..2];
-<span class="hl__comment">// the type of `reference` is &amp;[2]u8
-</span>reference[0] = <span class="hl__number">0x</span>BA;
-assert(bytes[0] == <span class="hl__number">0x</span>BA); <span class="hl__comment">// with a reference, the backing array can be modified.
-</span>
-<span class="hl__comment">// casts from &amp;[&lt;number&gt;]u8 to &amp;[..]u8 are allowed..
-</span><span class="hl__keyword">var</span> slice: &amp;[..]<span class="hl__type">u8</span> = reference;
+<span class="hl__comment">// the type of `reference` is &amp;[2]u8</span>
+reference[0] = <span class="hl__number">0x</span>BA;
+assert(bytes[0] == <span class="hl__number">0x</span>BA); <span class="hl__comment">// with a reference, the backing array can be modified.</span>
 
-<span class="hl__comment">// ..and so are casts from &amp;[..]u8 to &amp;[?]u8
-</span><span class="hl__keyword">var</span> ptr_unknown_length: &amp;[?]<span class="hl__type">u8</span> = reference;
+<span class="hl__comment">// casts from &amp;[&lt;number&gt;]u8 to &amp;[..]u8 are allowed..</span>
+<span class="hl__keyword">var</span> slice: &amp;[..]<span class="hl__type">u8</span> = reference;
+
+<span class="hl__comment">// ..and so are casts from &amp;[..]u8 to &amp;[?]u8</span>
+<span class="hl__keyword">var</span> ptr_unknown_length: &amp;[?]<span class="hl__type">u8</span> = reference;
 assert(ptr_unknown_length[3] == <span class="hl__number">0x</span>EF);
 
 <span class="hl__keyword">var</span> beef: &amp;[..]<span class="hl__type">u8</span> = &amp;ptr_unknown_length[2..4];
 assert(beef[0] == <span class="hl__number">0x</span>BE);
 assert(beef[1] == <span class="hl__number">0x</span>EF);
 
-<span class="hl__comment">// casting from a slice to an array is allowed, but safety-checked.
-</span><span class="hl__comment">// this is fine:
-</span><span class="hl__keyword">var</span> two: &amp;[2]<span class="hl__type">u8</span> = beef;
+<span class="hl__comment">// casting from a slice to an array is allowed, but safety-checked.</span>
+<span class="hl__comment">// this is fine:</span>
+<span class="hl__keyword">var</span> two: &amp;[2]<span class="hl__type">u8</span> = beef;
 
-<span class="hl__comment">// but this is a panic:
-</span><span class="hl__keyword">var</span> three: &amp;[3]<span class="hl__type">u8</span> = beef;
+<span class="hl__comment">// but this is a panic:</span>
+<span class="hl__keyword">var</span> three: &amp;[3]<span class="hl__type">u8</span> = beef;
 </pre><!-- end compiled region -->
     </article>
     <footer>
