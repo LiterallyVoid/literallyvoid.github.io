@@ -23,7 +23,6 @@ Making a game that runs in the browser is such a superpower.
 I wrote the game in plain JavaScript. One cool pattern I used was /configuration objects/ (it's my blog so I get to name the thing, alright‽):
 
 > code:c
-  /* foo */ bar
   const buildables = {
   	repeater: {
   		cls: RepeaterTurret,
