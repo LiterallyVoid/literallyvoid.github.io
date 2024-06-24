@@ -30,7 +30,10 @@ markup acre
 markup orcs
 markup memory
 markup ld55
-cp -r content/ld55 $OUT/
+cp -r content/ld55 $OUT/ 
+
+markup island-runes
+cp -r content/island-runes $OUT/ 
 
 markup git
 cp -r content/git $OUT/
