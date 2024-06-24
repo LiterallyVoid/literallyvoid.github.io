@@ -53,9 +53,9 @@ into puzzles like this:
 
 ![A beautiful puzzle](./island-runes/puzzle.png)
 
-# Tricks
+# Graphics
 
-Smashing a pixelated noise texture over everything was frighteningly effective.
+Everything was modelled in Blender. Smashing a pixelated noise texture over everything was frighteningly effective.
 
 # The Interact Key
 
