@@ -137,6 +137,8 @@ kbd {
     padding: 0.5em;
 
     overflow-x: auto;
+
+    tab-size: 4;
 }
 
 .hl__keyword {
@@ -149,9 +151,17 @@ kbd {
 }
 
 .hl__string {
-    color: #28A;
+    color: #284;
+}
+
+.hl__number {
+    color: #24A;
 }
 
 .hl__type {
-    color: #282;
+    color: #A22;
+}
+
+.hl__constant {
+    color: #940;
 }
