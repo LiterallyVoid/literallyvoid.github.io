@@ -10,7 +10,7 @@
 
 ## 2024
 
-\<\!\-\- - [Island Runes](/island-runes) (2024-06-23) (lol)\-\-\>
+- [Island Runes](/island-runes) (2024-06-23)
 
 - [Ludum Dare 55 post-mortem](/ld55) (2024-05-04)
 

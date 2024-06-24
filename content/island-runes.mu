@@ -12,6 +12,8 @@ Forty-eight hours later, I had a game. Godot Wild Jam runs for nine days — two
 
 [Go play it on itch.io!](https://literallyvoid.itch.io/island-runes) It'll probably take about five minutes to complete. (If I'm wrong, please annoy me about it on [this blog's issues page](https://github.com/LiterallyVoid/literallyvoid.github.io/issues/new)!)
 
+The source code is [*available* on GitHub](https://github.com/LiterallyVoid/island-runes).
+
 As per [my last blog post](/ld55#one-possible-future), I wanted to make a more narrative-focused game. By some measure, I succeeded! There's a box that people (okay, person) talk from!
 
 The puzzle system, on the other hand, was shoehorned in in the final hour. (An exaggeration, but only a little.)
@@ -32,17 +34,34 @@ When I was using Godot's language server (which was pretty much required for me,
 
 In the animation editor, it was hard to preserve animation entry and exit poses (and velocities, but that's much easier to forgive.)
 
-# Takeaways
+# Puzzles
+
+With a copious amount of reading [Red Blob Games' Hexagonal Grids page](https://www.redblobgames.com/grids/hexagons/) and an even copiouser amount of alcohol (kidding, I don't drink), I managed to turn text files like this:
+
+> code:acre
+  !1 1 66
+  3 #
+   0
+  1 6
+   0
+  # #
+   0
+  6 0
+   2
+
+into puzzles like this:
+
+![A beautiful puzzle](./island-runes/puzzle.png)
 
 # Tricks
 
 Smashing a pixelated noise texture over everything was frighteningly effective.
 
-# Case Study: The Interact Key
+# The Interact Key
 
 \<kbd\>E\</kbd\> is the interact key. Pressing E can either advance the currently active dialogue, or open an in-world "puzzleboard".
 
-I didn't have a global system to redirect input. The /dialogue script/ (running on the dialogue box itself) intercepted the interact key whenever a dialogue was running, but there was no way to see if an interact keypress /would/ intercepted there. As it is, the crosshair changes every time you look at an interactable object, even if the interact key would be captured by the dialogue script.
+I didn't have a global system to redirect input. The /dialogue script/ (running on the dialogue box itself) intercepted the interact key whenever a dialogue was running, but there was no way to see if an interact keypress /would/ intercepted there. As it is, the crosshair changes whenever you look at an interactable object, even if the interact key would be captured by the dialogue script.
 
 # Dialogue
 
