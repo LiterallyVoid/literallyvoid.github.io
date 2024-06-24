@@ -25,6 +25,7 @@
 <p>I made a game again! This time, the catalyst was seeing someone mention <a class="link" href="https://itch.io/jam/godot-wild-jam-70">Godot Wild Jam #70</a> was going on, a mere two days before the deadline. This time, to abide by the jam’s rules, I used <a class="link" href="https://godotengine.org/">Godot</a>. (I will not be elaborating on its pronounciation.)</p>
 <p>Forty-eight hours later, I had a game. Godot Wild Jam runs for nine days — two weekends — and I overscoped just barely past the single weekend I had.</p>
 <p><a class="link" href="https://literallyvoid.itch.io/island-runes">Go play it on itch.io!</a> It’ll probably take about five minutes to complete. (If I’m wrong, please annoy me about it on <a class="link" href="https://github.com/LiterallyVoid/literallyvoid.github.io/issues/new">this blog’s issues page</a>!)</p>
+<p>The source code is <a class="link" href="https://github.com/LiterallyVoid/island-runes"><strong>available</strong> on GitHub</a>.</p>
 <p>As per <a class="link" href="/ld55#one-possible-future">my last blog post</a>, I wanted to make a more narrative-focused game. By some measure, I succeeded! There’s a box that people (okay, person) talk from!</p>
 <p>The puzzle system, on the other hand, was shoehorned in in the final hour. (An exaggeration, but only a little.)</p>
 <h2><a class="heading__link" id="godot-papercuts" href="#godot-papercuts">Godot Papercuts</a></h2>
@@ -35,12 +36,26 @@
 <p>If you modify a model’s hierarchy in Blender, all Godot nodes that were parented into that hierarchy lose their saved transforms, and go back to the origin.</p>
 <p>When I was using Godot’s language server (which was pretty much required for me, as I don’t know Godot’s API very well), Godot segfaulted multiple times. This forced me back into Godot’s built-in editor. As a ride-or-die Modal Editor Person (I switched to Helix five and a half days ago), this was a bitter pill to swallow.</p>
 <p>In the animation editor, it was hard to preserve animation entry and exit poses (and velocities, but that’s much easier to forgive.)</p>
-<h2><a class="heading__link" id="takeaways" href="#takeaways">Takeaways</a></h2>
+<h2><a class="heading__link" id="puzzles" href="#puzzles">Puzzles</a></h2>
+<p>With a copious amount of reading <a class="link" href="https://www.redblobgames.com/grids/hexagons/">Red Blob Games’ Hexagonal Grids page</a> and an even copiouser amount of alcohol (kidding, I don’t drink), I managed to turn text files like this:</p>
+<pre class="codeblock">
+!<span class="hl__number">1</span> <span class="hl__number">1</span> <span class="hl__number">66</span>
+<span class="hl__number">3</span> #
+ <span class="hl__number">0</span>
+<span class="hl__number">1</span> <span class="hl__number">6</span>
+ <span class="hl__number">0</span>
+<span class="hl__comment"># #</span>
+ <span class="hl__number">0</span>
+<span class="hl__number">6</span> <span class="hl__number">0</span>
+ <span class="hl__number">2</span>
+</pre><p>into puzzles like this:</p>
+<figure>
+  <a href="./island-runes/puzzle.png"><img src="./island-runes/puzzle.png"/></a>  <figcaption>A beautiful puzzle</figcaption></figure>
 <h2><a class="heading__link" id="tricks" href="#tricks">Tricks</a></h2>
 <p>Smashing a pixelated noise texture over everything was frighteningly effective.</p>
-<h2><a class="heading__link" id="case-study-the-interact-key" href="#case-study-the-interact-key">Case Study: The Interact Key</a></h2>
+<h2><a class="heading__link" id="the-interact-key" href="#the-interact-key">The Interact Key</a></h2>
 <p><kbd>E</kbd> is the interact key. Pressing E can either advance the currently active dialogue, or open an in-world “puzzleboard”.</p>
-<p>I didn’t have a global system to redirect input. The <em>dialogue script</em> (running on the dialogue box itself) intercepted the interact key whenever a dialogue was running, but there was no way to see if an interact keypress <em>would</em> intercepted there. As it is, the crosshair changes every time you look at an interactable object, even if the interact key would be captured by the dialogue script.</p>
+<p>I didn’t have a global system to redirect input. The <em>dialogue script</em> (running on the dialogue box itself) intercepted the interact key whenever a dialogue was running, but there was no way to see if an interact keypress <em>would</em> intercepted there. As it is, the crosshair changes whenever you look at an interactable object, even if the interact key would be captured by the dialogue script.</p>
 <h2><a class="heading__link" id="dialogue" href="#dialogue">Dialogue</a></h2>
 <p>Here’s a sample of the game’s introduction script:</p>
 <pre class="codeblock">
