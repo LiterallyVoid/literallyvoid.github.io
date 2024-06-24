@@ -55,7 +55,7 @@ into puzzles like this:
 
 # Graphics
 
-Everything was modelled in Blender. Smashing a pixelated noise texture over everything was frighteningly effective.
+Models were modelled in Blender, vector graphics were created in Inkscape, and smashing a pixelated noise texture (created in Gimp) over everything was frighteningly effective.
 
 # The Interact Key
 
