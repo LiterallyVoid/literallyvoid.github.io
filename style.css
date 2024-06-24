@@ -114,11 +114,11 @@ sup, sub {
     font-size: 70%;
 }
 
-code {
+code, kbd {
     padding: 0.2em;
 }
 
-code, .codeblock {
+code, kbd, .codeblock {
     font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
     font-size: 80%;
 
@@ -128,11 +128,17 @@ code, .codeblock {
     border: 0.15em solid #DDD;
 }
 
+kbd {
+    border-bottom: 0.3em solid #DDD;
+}
+
 .codeblock {
     margin: 0.5em -0.5em;
     padding: 0.5em;
 
     overflow-x: auto;
+
+    tab-size: 4;
 }
 
 .hl__keyword {
@@ -145,9 +151,17 @@ code, .codeblock {
 }
 
 .hl__string {
-    color: #28A;
+    color: #284;
+}
+
+.hl__number {
+    color: #24A;
 }
 
 .hl__type {
-    color: #282;
+    color: #A22;
+}
+
+.hl__constant {
+    color: #940;
 }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="canonical" href="/island-runes" />
+    <title>Island Runes</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg"/>
+    <link rel="icon" type="image/png" href="/icon.png"/>
+  </head>
+  <body>
+    <article>
+<!-- compiled by markup/main.c -->
+<header>
+  <div class="block block--breadcrumbs">
+    <p><a class="link" href="/">Home</a> »</p>
+  </div>
+  <div class="block block--title">
+    <p>Island Runes</p>
+    <div class="block block--published">
+      <p>2024-06-23</p>
+    </div>
+  </div>
+</header>
+<p>I made a game again! This time, the catalyst was seeing someone mention <a class="link" href="https://itch.io/jam/godot-wild-jam-70">Godot Wild Jam #70</a> was going on, a mere two days before the deadline. This time, to abide by the jam’s rules, I used <a class="link" href="https://godotengine.org/">Godot</a>. (I will not be elaborating on its pronounciation.)</p>
+<p>Forty-eight hours later, I had a game. Godot Wild Jam runs for nine days — two weekends — and I overscoped just barely past the single weekend I had.</p>
+<p><a class="link" href="https://literallyvoid.itch.io/island-runes">Go play it on itch.io!</a> It’ll probably take about five minutes to complete. (If I’m wrong, please annoy me about it on <a class="link" href="https://github.com/LiterallyVoid/literallyvoid.github.io/issues/new">this blog’s issues page</a>!)</p>
+<p>As per <a class="link" href="/ld55#one-possible-future">my last blog post</a>, I wanted to make a more narrative-focused game. By some measure, I succeeded! There’s a box that people (okay, person) talk from!</p>
+<p>The puzzle system, on the other hand, was shoehorned in in the final hour. (An exaggeration, but only a little.)</p>
+<h2><a class="heading__link" id="godot-papercuts" href="#godot-papercuts">Godot Papercuts</a></h2>
+<p>By default, all text is just a little blurry. MSDF does make this better, but it seemed to round off corners when I tried it.</p>
+<p><code>MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT</code> doesn’t seem to work with web exports.</p>
+<p>Godot doesn’t make it easy to reduce redundancy. In fact, Godot makes it really easy to make a big ball of redundant state that somehow works. (See? I <em>can</em> compliment Godot! I’ve still got it in me!)</p>
+<p>A <code>Control</code> can change the mouse cursor for itself only. But if you have a <code>Node2D</code> that’s hoverable, you don’t have access to Godot’s infrastructure anymore, and you have to reach into global state (<code>set_default_cursor_shape</code>).</p>
+<p>If you modify a model’s hierarchy in Blender, all Godot nodes that were parented into that hierarchy lose their saved transforms, and go back to the origin.</p>
+<p>When I was using Godot’s language server (which was pretty much required for me, as I don’t know Godot’s API very well), Godot segfaulted multiple times. This forced me back into Godot’s built-in editor. As a ride-or-die Modal Editor Person (I switched to Helix five and a half days ago), this was a bitter pill to swallow.</p>
+<p>In the animation editor, it was hard to preserve animation entry and exit poses (and velocities, but that’s much easier to forgive.)</p>
+<h2><a class="heading__link" id="takeaways" href="#takeaways">Takeaways</a></h2>
+<h2><a class="heading__link" id="tricks" href="#tricks">Tricks</a></h2>
+<p>Smashing a pixelated noise texture over everything was frighteningly effective.</p>
+<h2><a class="heading__link" id="case-study-the-interact-key" href="#case-study-the-interact-key">Case Study: The Interact Key</a></h2>
+<p><kbd>E</kbd> is the interact key. Pressing E can either advance the currently active dialogue, or open an in-world “puzzleboard”.</p>
+<p>I didn’t have a global system to redirect input. The <em>dialogue script</em> (running on the dialogue box itself) intercepted the interact key whenever a dialogue was running, but there was no way to see if an interact keypress <em>would</em> intercepted there. As it is, the crosshair changes every time you look at an interactable object, even if the interact key would be captured by the dialogue script.</p>
+<h2><a class="heading__link" id="dialogue" href="#dialogue">Dialogue</a></h2>
+<p>Here’s a sample of the game’s introduction script:</p>
+<pre class="codeblock">
+<span class="hl__keyword">@radio_up</span>
+[radio] COORDINATES: <span class="hl__number">999999</span>° <span class="hl__number">59</span>′<span class="hl__number">59</span>″N, <span class="hl__number">999999</span>° <span class="hl__number">59</span>′<span class="hl__number">59</span>″E
+[radio] INCOMING CALL FROM:  [Maya Exeter]
+[other] Is this thing on? [...]
+</pre><p>This went through some bespoke parsing, which had the dubious honor of being worse than regular expressions:</p>
+<pre class="codeblock">
+<span class="hl__keyword">if</span> line == <span class="hl__string">&quot;&quot;</span>:
+	<span class="hl__keyword">return</span> <span class="hl__constant">false</span>
+
+<span class="hl__keyword">if</span> line.begins_with(<span class="hl__string">&quot;@&quot;</span>):
+	<span class="hl__keyword">var</span> command := line.substr(<span class="hl__number">1</span>)
+	<span class="hl__keyword">if</span> command.contains(<span class="hl__string">&quot; &quot;</span>):
+		<span class="hl__keyword">var</span> split := command.split(<span class="hl__string">&quot; &quot;</span>)
+		command = split[<span class="hl__number">0</span>]
+		<span class="hl__keyword">var</span> arg := split[<span class="hl__number">1</span>]
+		<span class="hl__keyword">return</span> call(<span class="hl__string">&quot;command_&quot;</span> + command, arg)
+	<span class="hl__keyword">else</span>:
+		<span class="hl__keyword">return</span> call(<span class="hl__string">&quot;command_&quot;</span> + command)
+
+<span class="hl__keyword">if</span> line.begins_with(<span class="hl__string">&quot;[&quot;</span>):
+	<span class="hl__keyword">var</span> speaker_end = line.find(<span class="hl__string">&quot;]&quot;</span>, <span class="hl__number">1</span>)
+	<span class="hl__keyword">var</span> speaker_id = line.substr(<span class="hl__number">1</span>, speaker_end - <span class="hl__number">1</span>)
+	<span class="hl__keyword">var</span> text = line.substr(speaker_end + <span class="hl__number">1</span>).lstrip(space).rstrip(space)
+
+	speaker_reset()
+	call(<span class="hl__string">&quot;speaker_&quot;</span> + speaker_id)
+
+	speech.text = text
+
+	animator.stop()
+	animator.play(<span class="hl__string">&quot;show&quot;</span>)
+	animator.queue(<span class="hl__string">&quot;tick&quot;</span>)
+
+	visible = <span class="hl__constant">true</span>
+
+	<span class="hl__keyword">return</span> <span class="hl__constant">true</span>
+</pre><p>This looked up speakers and commands as functions:</p>
+<pre class="codeblock">
+<span class="hl__keyword">func</span> speaker_reset() -&gt; <span class="hl__type">void</span>:
+	speaker.text = <span class="hl__string">&quot;Unspecified&quot;</span>
+	speaker.modulate = Color(<span class="hl__number">1</span>, <span class="hl__number">1</span>, <span class="hl__number">1</span>, <span class="hl__number">1</span>)
+
+<span class="hl__comment"># [...]</span>
+
+<span class="hl__keyword">func</span> command_activate(name: String) -&gt; bool:
+	<span class="hl__keyword">var</span> any := <span class="hl__constant">false</span>
+	<span class="hl__keyword">for</span> node in $<span class="hl__string">&quot;../world&quot;</span>.find_children(name):
+		any = <span class="hl__constant">true</span>
+		node._activate()
+
+	<span class="hl__keyword">if</span> <span class="hl__keyword">not</span> any:
+		printerr(<span class="hl__string">&quot;@activate no nodes: &quot;</span>, name)
+
+	<span class="hl__keyword">return</span> <span class="hl__constant">false</span>
+</pre><p>In yet another massive win for Greenspun’s tenth rule, I actually used the dialogue language for the interactive puzzle boards in the world, too! These just played a specific dialogue script:</p>
+<pre class="codeblock">
+<span class="hl__keyword">@puzzle</span> <span class="hl__number">2-1</span>
+<span class="hl__keyword">@activate</span> puzzle_2-2
+</pre><p>This had two major benefits: this just gave me automatic support for puzzle completion transitioning into a dialogue.</p>
+<pre class="codeblock">
+<span class="hl__keyword">@puzzle</span> <span class="hl__number">2-3</span>
+<span class="hl__keyword">@radio_up</span>
+[other] You’ve just completed the game!
+</pre><p><em>And,</em> when creating all of the game’s puzzles (all <em>five</em> of them!) I could just pop up the puzzles before the introductory dialogue:</p>
+<pre class="codeblock">
+<span class="hl__keyword">@radio_up</span>
+<span class="hl__keyword">@puzzle</span> <span class="hl__number">2-3</span>
+[radio] COORDINATES: [...]
+</pre><p>This reduced the iteration cycle massively, which is one of the most effective ways to develop more game, more faster.</p>
+<p>An interesting to think about here is that, this is effectively code. Why wasn’t GDScript up to the challenge? One reason is that I actually didn’t know GDScript supported coroutines! This code could’ve been translated into something like the following:</p>
+<pre class="codeblock">
+<span class="hl__keyword">await</span> radio_up()
+<span class="hl__keyword">await</span> say(radio, <span class="hl__string">&quot;COORDINATES: 999999° 59′59″N, 999999° 59′59″E&quot;</span>)
+<span class="hl__keyword">await</span> say(radio, <span class="hl__string">&quot;INCOMING CALL FROM:  [Maya Exeter]&quot;</span>)
+<span class="hl__keyword">await</span> say(maya, <span class="hl__string">&quot;Is this thing on? [...]&quot;</span>)
+</pre><p>Sure, it has more cruft, but it’s still totally readable. I’m genuinely a little surprised that this is so viable. And it’s actually really easy to export a script attribute:</p>
+<pre class="codeblock">
+<span class="hl__keyword">@export</span> <span class="hl__keyword">var</span> on_interact: Script
+
+<span class="hl__keyword">func</span> _interact():
+	on_interact.new().activate()
+</pre><p>You can’t create a picker for scripts that <em>extend a specific class</em> though, as this just shows a node picker instead. It’d be really nice to be able to Quick Load only dialogue scripts, instead of all <code>.gd</code> files. But this is understandably a small niche of Godot’s surface.</p>
+<!-- end compiled region -->
+    </article>
+    <footer>
+      <p>copyright © 2024</p>
+    </footer>
+  </body>
+</html>

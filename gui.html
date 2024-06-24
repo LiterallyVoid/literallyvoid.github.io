@@ -29,8 +29,8 @@
 <p>After all children have been laid out (and sized), the parent element should move them to the correct places.</p>
 <p>Pseudocode for the <code>flex</code> element:</p>
 <pre class="codeblock">
-<span class="hl__type">float</span> total_along = 0;
-<span class="hl__type">float</span> total_flex_grow = 0;
+<span class="hl__type">float</span> total_along = <span class="hl__number">0</span>;
+<span class="hl__type">float</span> total_flex_grow = <span class="hl__number">0</span>;
 
 box[children.len] boxes;
 
@@ -63,10 +63,10 @@ box[children.len] boxes;
 }
 
 <span class="hl__comment">// move elements to the correct place</span>
-<span class="hl__type">float</span> current = 0;
+<span class="hl__type">float</span> current = <span class="hl__number">0</span>;
 <span class="hl__keyword">for</span> i, _ <span class="hl__keyword">in</span> children {
     boxes[i].offset = {
-        0, 0,
+        <span class="hl__number">0</span>, <span class="hl__number">0</span>,
         [primary_axis] = current,
     };
     current += boxes[i].size[primary_axis];

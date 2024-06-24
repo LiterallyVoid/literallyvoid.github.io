@@ -83,13 +83,13 @@
 <span class="hl__keyword">def</span> Vec2 = (<span class="hl__type">f32</span>, <span class="hl__type">f32</span>);
 <span class="hl__keyword">def</span> Vec3 = (<span class="hl__type">f32</span>, <span class="hl__type">f32</span>, <span class="hl__type">f32</span>);
 
-<span class="hl__keyword">var</span> my_vec3: Vec3 = (1.0, 0.0, 1.0);
+<span class="hl__keyword">var</span> my_vec3: Vec3 = (<span class="hl__number">1</span>.<span class="hl__number">0</span>, <span class="hl__number">0</span>.<span class="hl__number">0</span>, <span class="hl__number">1</span>.<span class="hl__number">0</span>);
 </pre><p>Tuples with the same structure are implicitly casted between, so:</p>
 <pre class="codeblock">
 <span class="hl__keyword">def</span> Ipv4Address = (<span class="hl__type">u8</span>, <span class="hl__type">u8</span>, <span class="hl__type">u8</span>, <span class="hl__type">u8</span>);
 <span class="hl__keyword">def</span> FourCC = (<span class="hl__type">u8</span>, <span class="hl__type">u8</span>, <span class="hl__type">u8</span>, <span class="hl__type">u8</span>);
 
-<span class="hl__keyword">var</span> address: Ipv4Address = (<span class="hl__number">12</span>7, 0, 0, 1);
+<span class="hl__keyword">var</span> address: Ipv4Address = (<span class="hl__number">127</span>, <span class="hl__number">0</span>, <span class="hl__number">0</span>, <span class="hl__number">1</span>);
 <span class="hl__keyword">var</span> magic: FourCC = (<span class="hl__number">0x7F</span>, <span class="hl__number">0x45</span>, <span class="hl__number">0x4c</span>, <span class="hl__number">0x46</span>);
 
 address = magic; <span class="hl__comment">// whoops!</span>
@@ -101,38 +101,38 @@ address = magic; <span class="hl__comment">// whoops!</span>
 <p>Slices cannot be used directly; they can only be used in pointer form.</p>
 <p>Slices can be created from either arrays or pointers-to-unknown.</p>
 <pre class="codeblock">
-<span class="hl__keyword">var</span> bytes: [4]<span class="hl__type">u8</span> = { <span class="hl__number">0x</span>DE, <span class="hl__number">0x</span>AD, <span class="hl__number">0x</span>BE, <span class="hl__number">0x</span>EF };
+<span class="hl__keyword">var</span> bytes: [<span class="hl__number">4</span>]<span class="hl__type">u8</span> = { <span class="hl__number">0xDE</span>, <span class="hl__number">0xAD</span>, <span class="hl__number">0xBE</span>, <span class="hl__number">0xEF</span> };
 
-<span class="hl__keyword">var</span> dead = bytes[0..2];
+<span class="hl__keyword">var</span> dead = bytes[<span class="hl__number">0</span>..<span class="hl__number">2</span>];
 <span class="hl__comment">// the type of `dead` is [2]u8</span>
 
-dead[0] = <span class="hl__number">0x</span>BA;
+dead[<span class="hl__number">0</span>] = <span class="hl__number">0xBA</span>;
 
 <span class="hl__comment">// without a reference, the slice operator copies the created slice.</span>
-assert(bytes[0] == <span class="hl__number">0x</span>DE);
+assert(bytes[<span class="hl__number">0</span>] == <span class="hl__number">0xDE</span>);
 
-<span class="hl__keyword">var</span> reference = &amp;bytes[0..2];
+<span class="hl__keyword">var</span> reference = &amp;bytes[<span class="hl__number">0</span>..<span class="hl__number">2</span>];
 <span class="hl__comment">// the type of `reference` is &amp;[2]u8</span>
-reference[0] = <span class="hl__number">0x</span>BA;
-assert(bytes[0] == <span class="hl__number">0x</span>BA); <span class="hl__comment">// with a reference, the backing array can be modified.</span>
+reference[<span class="hl__number">0</span>] = <span class="hl__number">0xBA</span>;
+assert(bytes[<span class="hl__number">0</span>] == <span class="hl__number">0xBA</span>); <span class="hl__comment">// with a reference, the backing array can be modified.</span>
 
 <span class="hl__comment">// casts from &amp;[&lt;number&gt;]u8 to &amp;[..]u8 are allowed..</span>
 <span class="hl__keyword">var</span> slice: &amp;[..]<span class="hl__type">u8</span> = reference;
 
 <span class="hl__comment">// ..and so are casts from &amp;[..]u8 to &amp;[?]u8</span>
 <span class="hl__keyword">var</span> ptr_unknown_length: &amp;[?]<span class="hl__type">u8</span> = reference;
-assert(ptr_unknown_length[3] == <span class="hl__number">0x</span>EF);
+assert(ptr_unknown_length[<span class="hl__number">3</span>] == <span class="hl__number">0xEF</span>);
 
-<span class="hl__keyword">var</span> beef: &amp;[..]<span class="hl__type">u8</span> = &amp;ptr_unknown_length[2..4];
-assert(beef[0] == <span class="hl__number">0x</span>BE);
-assert(beef[1] == <span class="hl__number">0x</span>EF);
+<span class="hl__keyword">var</span> beef: &amp;[..]<span class="hl__type">u8</span> = &amp;ptr_unknown_length[<span class="hl__number">2</span>..<span class="hl__number">4</span>];
+assert(beef[<span class="hl__number">0</span>] == <span class="hl__number">0xBE</span>);
+assert(beef[<span class="hl__number">1</span>] == <span class="hl__number">0xEF</span>);
 
 <span class="hl__comment">// casting from a slice to an array is allowed, but safety-checked.</span>
 <span class="hl__comment">// this is fine:</span>
-<span class="hl__keyword">var</span> two: &amp;[2]<span class="hl__type">u8</span> = beef;
+<span class="hl__keyword">var</span> two: &amp;[<span class="hl__number">2</span>]<span class="hl__type">u8</span> = beef;
 
 <span class="hl__comment">// but this is a panic:</span>
-<span class="hl__keyword">var</span> three: &amp;[3]<span class="hl__type">u8</span> = beef;
+<span class="hl__keyword">var</span> three: &amp;[<span class="hl__number">3</span>]<span class="hl__type">u8</span> = beef;
 </pre><!-- end compiled region -->
     </article>
     <footer>
